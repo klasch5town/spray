@@ -55,12 +55,11 @@ def main():
         "-t","--task",
         help="the task to do, like:" \
         "- create",
-        default=None
+        default=None,
     )
     parser.add_argument(
         "-y","--yaml_file",
         help="YAML based input file.",
-        default=None
     )
     # Parser arguments
     args = parser.parse_args()
