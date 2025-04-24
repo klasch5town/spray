@@ -6,9 +6,9 @@ import logging
 
 
 def main():
-    """main function of yaml2xls project.
+    """main function of spray project.
 
-    This function handles the command line arguments.
+    The main function handles the command line arguments.
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
