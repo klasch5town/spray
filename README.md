@@ -34,7 +34,7 @@ The first yaml entry represents the header for the table.
 Roadmap
 -------
 
-- [ ] create a row with given header
+- [x] create a row with given header
 - [ ] add a row/entry with data
 - [ ] delete a row/entry
 - [ ] add a column (new item in dataset of a row)
