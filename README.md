@@ -34,7 +34,7 @@ The first yaml entry represents the header for the table.
 Roadmap
 -------
 
-- [ ] create a row with given header
+- [x] create a row with given header
 - [ ] add a row/entry with data
 - [ ] delete a row/entry
 - [ ] add a column (new item in dataset of a row)
@@ -47,3 +47,8 @@ Links
 - YAML at Wikipedia => https://en.wikipedia.org/wiki/YAML
 - Home of YAML => https://yaml.org/
 - YAML specification 1.2.2 => https://yaml.org/spec/1.2.2/
+
+License
+-------
+
+Distributed under the Unlicense License. See LICENSE file for more information.
