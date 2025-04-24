@@ -35,7 +35,10 @@ Roadmap
 -------
 
 - [x] create a row with given header
+- [ ] convert spreadsheet (Excel) into YAML file
 - [ ] add a row/entry with data
+  - [ ] one-shot via command line
+  - [ ] interactive: asking for each column via command line
 - [ ] delete a row/entry
 - [ ] add a column (new item in dataset of a row)
 - [ ] store yaml-file path to yaml2xls.yml config-file located at home subfolder .yaml2xls (~/.yaml2xls/yaml2xls.yml) such that there is no need to provide it via command line all the time.
@@ -47,6 +50,8 @@ Links
 - YAML at Wikipedia => https://en.wikipedia.org/wiki/YAML
 - Home of YAML => https://yaml.org/
 - YAML specification 1.2.2 => https://yaml.org/spec/1.2.2/
+- openpyxl project => https://openpyxl.readthedocs.io/en/stable/
+- working with openpyxl => https://www.geeksforgeeks.org/creating-the-workbook-and-worksheet-using-openpyxl-in-python/
 
 License
 -------
