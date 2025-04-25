@@ -41,6 +41,7 @@ Roadmap
   - [ ] interactive: asking for each column via command line
 - [ ] delete a row/entry
 - [ ] add a column (new item in dataset of a row)
+- [ ] export YAML content to spreadsheet file (Excel)
 - [ ] store yaml-file path to yaml2xls.yml config-file located at home subfolder .yaml2xls (~/.yaml2xls/yaml2xls.yml) such that there is no need to provide it via command line all the time.
 - [ ]
 
