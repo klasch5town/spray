@@ -7,6 +7,8 @@ import os.path
 import sys
 import yaml
 
+from openpyxl import load_workbook
+
 class Spray():
     """This class handles all 'spreadsheet' aspects.
     """
@@ -31,6 +33,21 @@ class Spray():
         self.yct = yaml.dump(tbl_header)
         with open(self.yaml_file, "w") as yfh:
             yaml.dump(tbl_header, yfh, sort_keys=False)
+
+    def xls2yaml(self, xls_file, yaml_file):
+        wb = load_workbook(filename = 'empty_book.xlsx')
+        # Get the active worksheet
+        ws = wb.active
+        row = 1
+        while True:
+            column = 1
+            while True:
+                cell = ws.cell(row=row, column=column)
+                if cell.value is None:
+                    break
+                print(cell.value)
+                column += 1
+            row += 1
 
 
 def main():
@@ -58,6 +75,10 @@ def main():
         default=None,
     )
     parser.add_argument(
+        "-x","--xls_file",
+        help="Spreadsheet (Excel) file.",
+    )
+    parser.add_argument(
         "-y","--yaml_file",
         help="YAML based input file.",
     )
@@ -73,6 +94,8 @@ def main():
 
     if args.task == "create":
         spray.create(args.input)
+    elif args.task == "xls2yaml":
+        spray.xls2yaml(args.xls_file, args.yaml_file)
 
 
 if __name__ == '__main__':
