@@ -50,6 +50,7 @@ dependencies = [
     "unearth==0.17.5",
     "urllib3==2.4.0",
     "virtualenv==20.30.0",
+    "openpyxl>=3.1.5",
 ]
 requires-python = ">=3.10.*"
 readme = "README.md"
