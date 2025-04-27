@@ -36,7 +36,7 @@ dependencies = [
     "pyproject-hooks==1.2.0",
     "pytest==8.3.5",
     "python-dotenv==1.1.0",
-    "PyYAML==6.0.2",
+    "pyyaml>=6.0.2",
     "requests==2.32.3",
     "resolvelib==1.1.0",
     "rich==14.0.0",
