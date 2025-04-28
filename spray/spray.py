@@ -9,6 +9,7 @@ import yaml
 
 from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Alignment
+from pathlib import Path
 
 class Spray():
     """This class handles all 'spreadsheet' aspects.
@@ -19,6 +20,17 @@ class Spray():
             with open(self.yaml_file, 'r') as yfh:
                 self.yct = yaml.safe_load(yfh)
         else: self.yct = None
+
+    def _check_path(self, path_to_check):
+        """checks if a path exist and if it does not exist, create it.
+
+        Args:
+            path_to_check (string): the path to check and create
+        """
+        the_path = Path(path_to_check)
+        if not the_path.exists():
+            the_path.mkdir()
+
 
     def _generate_header(self, ws, data_set):
         column = ord("A")
@@ -32,8 +44,13 @@ class Spray():
         Args:
             header (list): list with header content
         """
-        if os.path.exists(self.yaml_file):
+        yaml_file = Path(self.yaml_file)
+
+        if yaml_file.exists():
             sys.exit(f"YAYML file {self.yaml_file} already exists")
+        # check if path to yaml file already exists
+        self._check_path(yaml_file.parent)
+
         tbl_header = [{}]
         for item in header.split(","):
             tbl_header[0][item]=item
@@ -41,7 +58,14 @@ class Spray():
         with open(self.yaml_file, "w") as yfh:
             yaml.dump(tbl_header, yfh, sort_keys=False)
 
+
     def yaml2xls(self, yaml_file, xls_file):
+        """Create a spreadsheet file from a yaml input file.
+
+        Args:
+            yaml_file (string): the yaml input file
+            xls_file (string): the spreadsheet output (Excel-) file
+        """
         # read yaml content
         with open(yaml_file, 'r') as fh:
             content = yaml.safe_load(fh)
@@ -69,6 +93,7 @@ class Spray():
             row += 1
 
         # Save the workbook to a file
+        self._check_path(Path(xls_file).parent)
         wb.save(xls_file)
 
     def xls2yaml(self, xls_file, yaml_file):
