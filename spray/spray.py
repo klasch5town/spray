@@ -38,6 +38,18 @@ class Spray():
             ws[f"{chr(column)}1"] = key
             column += 1
 
+    def _get_header(self, ws):
+        column = 1
+        data_set = {}
+        self.header = []
+        while True:
+            cell = ws.cell(row=1,column=column)
+            if cell.value == None:
+                break
+            self.header.append(cell.value)
+            column += 1
+
+
     def create(self, header):
         """Create a 'table' by creating the very first yaml entry as table header.
 
@@ -59,7 +71,7 @@ class Spray():
             yaml.dump(tbl_header, yfh, sort_keys=False)
 
 
-    def yaml2xls(self, yaml_file, xls_file):
+    def yaml2xls(self, xls_file):
         """Create a spreadsheet file from a yaml input file.
 
         Args:
@@ -67,7 +79,7 @@ class Spray():
             xls_file (string): the spreadsheet output (Excel-) file
         """
         # read yaml content
-        with open(yaml_file, 'r') as fh:
+        with open(self.yaml_file, 'r') as fh:
             content = yaml.safe_load(fh)
         # Create a workbook
         wb = Workbook()
@@ -83,11 +95,12 @@ class Spray():
             for key,value in set.items():
                 cell = ws.cell(row=row, column=column)
                 if value is not None:
-                    value = value.rstrip("\n")
-                    if value.startswith("-"):
-                        value = "'"+value
+                    if isinstance(value, str):
+                        value = value.rstrip("\n")
+                        if value.startswith("-"):
+                            value = "'"+value
                     cell.value = value
-                    if "\n" in value:
+                    if isinstance(value, str) and "\n" in value:
                         cell.alignment = Alignment(wrap_text=True)
                 column += 1
             row += 1
@@ -96,20 +109,26 @@ class Spray():
         self._check_path(Path(xls_file).parent)
         wb.save(xls_file)
 
-    def xls2yaml(self, xls_file, yaml_file):
-        wb = load_workbook(filename = 'empty_book.xlsx')
+    def xls2yaml(self, xls_file):
+        wb = load_workbook(filename = xls_file)
         # Get the active worksheet
         ws = wb.active
-        row = 1
+        self.yct = []
+        self._get_header(ws)
+        row = 2
         while True:
             column = 1
-            while True:
-                cell = ws.cell(row=row, column=column)
-                if cell.value is None:
-                    break
-                print(cell.value)
-                column += 1
+            cell = ws.cell(row=row, column=column)
+            if cell.value is None:
+                break
+            yaml_dataset = {}
+            for column in range(0, len(self.header)):
+                cell = ws.cell(row=row, column=column+1)
+                yaml_dataset[self.header[column]] = cell.value
             row += 1
+            self.yct.append(yaml_dataset)
+        with open(self.yaml_file, "w") as yfh:
+            yaml.dump(self.yct, yfh, sort_keys=False)
 
 
 def main():
@@ -158,9 +177,9 @@ def main():
     if args.task == "create":
         spray.create(args.input)
     elif args.task == "xls2yaml":
-        spray.xls2yaml(args.xls_file, args.yaml_file)
+        spray.xls2yaml(args.xls_file)
     elif args.task == "yaml2xls":
-        spray.yaml2xls(args.yaml_file, args.xls_file)
+        spray.yaml2xls(args.xls_file)
 
 
 if __name__ == '__main__':
