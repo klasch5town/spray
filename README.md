@@ -26,32 +26,37 @@ Setup
 -----
 
 Make sure you have python installed:
+
 ```shell
 python --version
 ```
+
 should show the python version. It should be 3.10 or 3.11.
 
 Next step is to check if pdm is intalled:
+
 ```shell
 pdm --version
 # or if pdm 'is not in the path'
 python -m pdm --version
 ```
+
 If it is not installed, install it by calling:
+
 ```shell
 pip install pdm
 ```
 
 Finally let pdm create your virtual environment and install the needed python modules:
+
 ```shell
 pdm install
 ```
 
-
 usage
 -----
 
-```
+```help
 usage: spray.py [-h] [-d] [-v] [-t TASK] [-y YAML_FILE] input
 
 positional arguments:
@@ -61,7 +66,10 @@ options:
   -h, --help            show this help message and exit
   -d, --debug           show debug output at console
   -v, --verbose         show more console output
-  -t, --task TASK       the task to do, like:- create
+  -t, --task TASK       the task to do, like:
+                        - create
+                        - yaml2xls
+                        - xls2yaml
   -y, --yaml_file YAML_FILE
                         YAML based input file.
 ```
@@ -72,7 +80,9 @@ example
 ```shell
 python spray -y example.yml -t create id,name,description
 ```
+
 will create a yaml file like
+
 ```yaml
 - id: id
   name: name
@@ -83,13 +93,13 @@ Roadmap
 -------
 
 - [x] create a row with given header
-- [ ] convert spreadsheet (Excel) into YAML file
+- [x] convert spreadsheet (Excel) into YAML file
 - [ ] add a row/entry with data
   - [ ] one-shot via command line
   - [ ] interactive: asking for each column via command line
 - [ ] delete a row/entry
 - [ ] add a column (new item in dataset of a row)
-- [ ] export YAML content to spreadsheet file (Excel)
+- [x] export YAML content to spreadsheet file (Excel)
 - [ ] store yaml-file path to yaml2xls.yml config-file located at home subfolder .yaml2xls (~/.yaml2xls/yaml2xls.yml) such that there is no need to provide it via command line all the time.
 - [ ]
 

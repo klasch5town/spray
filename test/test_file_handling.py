@@ -5,13 +5,11 @@ import pytest
 from unittest.mock import patch
 
 # Add the root directory to sys.path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from helper_functions import remove_file
 from spray.spray import Spray, main
-
-def remove_file(file_to_remove):
-    if os.path.exists(file_to_remove):
-        os.remove(file_to_remove)
 
 def test_main_with_valid_param(capfd):
     """
