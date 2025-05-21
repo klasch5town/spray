@@ -94,6 +94,7 @@ Roadmap
 
 - [x] create a row with given header
 - [x] convert spreadsheet (Excel) into YAML file
+- [ ] rework parameter structure and handling
 - [ ] add a row/entry with data
   - [ ] one-shot via command line
   - [ ] interactive: asking for each column via command line
@@ -101,7 +102,7 @@ Roadmap
 - [ ] add a column (new item in dataset of a row)
 - [x] export YAML content to spreadsheet file (Excel)
 - [ ] store yaml-file path to yaml2xls.yml config-file located at home subfolder .yaml2xls (~/.yaml2xls/yaml2xls.yml) such that there is no need to provide it via command line all the time.
-- [ ]
+- [ ] provide an show option to view the table in the browser (e.g. via flask)
 
 Links
 -----

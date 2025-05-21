@@ -16,10 +16,16 @@ class Spray():
     """
     def __init__(self, yaml_file):
         self.yaml_file = yaml_file
+        self.empty = True
         if os.path.exists(self.yaml_file):
             with open(self.yaml_file, 'r') as yfh:
                 self.yct = yaml.safe_load(yfh)
-        else: self.yct = None
+            for key,value in self.yct[0].items():
+                if key != value:
+                    self.empty = False
+                    break
+        else:
+            self.yct = None
 
     def _check_path(self, path_to_check):
         """checks if a path exist and if it does not exist, create it.
@@ -130,6 +136,21 @@ class Spray():
         with open(self.yaml_file, "w") as yfh:
             yaml.dump(self.yct, yfh, sort_keys=False)
 
+    def add(self, data_set):
+        ds = data_set.split(',')
+        if len(ds) != len(self.yct[0]):
+            sys.exit(f"Wrong length of input data: {data_set}")
+        data_row = {}
+        for index,key in enumerate(self.yct[0].keys()):
+            data_row[key] = ds[index]
+        if self.empty:
+            self.yct[0] = data_row
+            self.empty = False
+        else:
+            self.yct.append(data_row)
+        with open(self.yaml_file, "w") as yfh:
+            yaml.dump(self.yct, yfh, sort_keys=False)
+
 
 def main():
     """main function of spray project.
@@ -147,14 +168,18 @@ def main():
     )
     parser.add_argument(
         'input',
-        default="not relevant",
-        help="input to handle with the given task"
+        nargs="*",
+        help="give the task and input for the task. Tasks are:" \
+        "- yaml2xls\t convert a yaml-file to a spreadsheet file (Excel)" \
+        "- xls2yaml\t convert a spreadsheet file (Excel) to a yaml file" \
+        "- new\t create a new yaml file" \
+        "See 'spray help <task> to get help for each command."
     )
     parser.add_argument(
-        "-t","--task",
-        help="the task to do, like:" \
-        "- create",
-        default=None,
+        "-i","--interactive",
+        action="store_true",
+        default=False,
+        help="do it in interactive mode.",
     )
     parser.add_argument(
         "-x","--xls_file",
@@ -174,12 +199,18 @@ def main():
 
     spray = Spray(args.yaml_file)
 
-    if args.task == "create":
-        spray.create(args.input)
-    elif args.task == "xls2yaml":
+    if args.input[0] == "new":
+        if len(args.input) > 1:
+            spray.create(args.input[1])
+        else:
+            parser.print_help(file=sys.stderr)
+            sys.exit(2)
+    elif args.input[0] == "xls2yaml":
         spray.xls2yaml(args.xls_file)
-    elif args.task == "yaml2xls":
+    elif args.input[0] == "yaml2xls":
         spray.yaml2xls(args.xls_file)
+    elif args.input[0] == "add":
+        spray.add(args.input[1])
 
 
 if __name__ == '__main__':

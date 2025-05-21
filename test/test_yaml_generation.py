@@ -19,7 +19,7 @@ def test_create_yaml_file(capfd):
     test_xls_file = "./examples/simple_table.xlsx"
     remove_file(test_yaml_file)
     # Patch sys.argv with valid arguments
-    with patch("sys.argv", ["spray.py", "-y", test_yaml_file, "-t", "xls2yaml", "-x", test_xls_file, "not-relevant"]):
+    with patch("sys.argv", ["spray.py", "-y", test_yaml_file, "xls2yaml", "-x", test_xls_file]):
         main()
 
     # Check that the file was created

@@ -18,7 +18,7 @@ def test_main_with_valid_param(capfd):
     test_yaml_file = "test_file.yml"
     remove_file(test_yaml_file)
     # Patch sys.argv with valid arguments
-    with patch("sys.argv", ["spray.py", "-y", test_yaml_file, "-t", "create", "a,b,c"]):
+    with patch("sys.argv", ["spray.py", "-y", test_yaml_file, "new", "a,b,c"]):
         main()
 
     # Check that the file was created
@@ -35,7 +35,7 @@ def test_main_with_missing_input(capfd):
     test_yaml_file = "test_file.yml"
     remove_file(test_yaml_file)
     # Mock sys.argv to simulate missing arguments
-    with patch("sys.argv", ["spray.py", "-y", test_yaml_file, "-t", "create"]):
+    with patch("sys.argv", ["spray.py", "-y", test_yaml_file, "new"]):
         with pytest.raises(SystemExit) as excinfo:  # Expecting sys.exit() due to error
             main()
 
@@ -47,4 +47,7 @@ def test_main_with_missing_input(capfd):
 
     # Capture the output
     captured = capfd.readouterr()
+    print("#"*30)
+    print(captured)
+    print("#"*30)
     assert "usage: " in captured.err  # Assert usage message is in stderr
